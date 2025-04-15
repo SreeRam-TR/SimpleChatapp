@@ -6,13 +6,18 @@ import os
 
 app = FastAPI()
 
-# Update CORS settings
+# Update CORS settings to include your Render frontend URL
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, you should list specific origins
+    allow_origins=[
+        "https://chatapp-frontend-s6uf.onrender.com",  # Your Render frontend URL
+        "http://localhost:3000",  # For local development
+        "http://localhost:5000",
+        "http://localhost:8000"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 # Add routers
@@ -20,8 +25,8 @@ app.include_router(ws_router)
 app.include_router(auth_router)
 
 @app.get("/")
-async def read_root():
-    return {"status": "ok", "message": "Chat App API is running"}
+def read_root():
+    return {"message": "Chat App API is running."}
 
 if __name__ == "__main__":
     import uvicorn
