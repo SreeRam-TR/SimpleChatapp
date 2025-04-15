@@ -2,34 +2,18 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from websocket import router as ws_router
 from auth import router as auth_router
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 app = FastAPI()
 
-# Get frontend URL from environment variable
-FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://chatapp-frontend-s6uf.onrender.com')
-
-# Update CORS settings
-origins = [
-    FRONTEND_URL,
-    "http://localhost:3000",
-    "http://localhost:5000",
-    "http://localhost:8000",
-]
-
+# Simplify CORS - allow all origins temporarily to test
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # This will allow all origins
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["*"]
+    allow_headers=["*"]
 )
 
-# Add routers
 app.include_router(ws_router)
 app.include_router(auth_router)
 
