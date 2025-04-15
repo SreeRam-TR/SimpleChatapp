@@ -1,4 +1,4 @@
 const config = {
-    backendUrl: 'https://chatapp-backend.onrender.com',
-    wsUrl: 'wss://chatapp-backend.onrender.com'
+    backendUrl: 'https://chatapp-backend-gvll.onrender.com',
+    wsUrl: 'wss://chatapp-backend-gvll.onrender.com'
 }; 
