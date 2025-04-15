@@ -8,7 +8,7 @@ if (!userId) {
 
 // Initialize WebSocket connection
 function initializeWebSocket() {
-    ws = new WebSocket(`ws://localhost:8000/ws/${userId}`);
+    ws = new WebSocket(`${config.wsUrl}/ws/${userId}`);
     
     ws.onopen = () => {
         console.log('WebSocket connected');
@@ -53,7 +53,7 @@ async function searchUsers(query) {
     }
 
     try {
-        const response = await fetch(`http://localhost:8000/users/search?query=${query}`);
+        const response = await fetch(`${config.backendUrl}/users/search?query=${query}`);
         const users = await response.json();
         
         searchResults.innerHTML = '';
@@ -92,7 +92,7 @@ async function loadChatHistory() {
     if (!currentChatUser) return;
     
     try {
-        const response = await fetch(`http://localhost:8000/messages/${userId}/${currentChatUser.id}`);
+        const response = await fetch(`${config.backendUrl}/messages/${userId}/${currentChatUser.id}`);
         if (!response.ok) {
             throw new Error('Failed to load chat history');
         }
@@ -164,7 +164,7 @@ function handleKeyPress(event) {
 // Update recent chats
 async function updateRecentChats() {
     try {
-        const response = await fetch(`http://localhost:8000/recent-chats/${userId}`);
+        const response = await fetch(`${config.backendUrl}/recent-chats/${userId}`);
         const recentChats = await response.json();
         
         const recentChatsDiv = document.getElementById('recentChats');
