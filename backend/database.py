@@ -1,10 +1,13 @@
-import asyncpg
 import os
 from dotenv import load_dotenv
+import asyncpg
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
 async def get_connection():
-    return await asyncpg.connect(DATABASE_URL)
+    try:
+        conn = await asyncpg.connect(os.getenv('DATABASE_URL'))
+        return conn
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        raise e

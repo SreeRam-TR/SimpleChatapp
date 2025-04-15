@@ -113,32 +113,17 @@ async function loadChatHistory() {
     }
 }
 
-// Display message function
+// Display a message
 function displayMessage(message) {
     const messagesList = document.getElementById('messagesList');
     const div = document.createElement('div');
-    
     div.className = `message ${message.sender_id === userId ? 'sent' : 'received'}`;
-    
-    // Create message content
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'message-content';
-    contentDiv.textContent = message.content;
-    
-    // Create timestamp
-    const timeDiv = document.createElement('div');
-    timeDiv.className = 'message-time';
-    const messageTime = new Date(message.timestamp);
-    timeDiv.textContent = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
-    div.appendChild(contentDiv);
-    div.appendChild(timeDiv);
-    
+    div.textContent = message.content;
     messagesList.appendChild(div);
     messagesList.scrollTop = messagesList.scrollHeight;
 }
 
-// Send message function
+// Send message
 function sendMessage() {
     const input = document.getElementById('messageInput');
     const message = input.value.trim();
@@ -156,8 +141,7 @@ function sendMessage() {
     const messageData = {
         sender_id: userId,
         receiver_id: currentChatUser.id,
-        content: message,
-        timestamp: new Date().toISOString()
+        content: message
     };
     
     try {

@@ -6,18 +6,23 @@ import os
 
 app = FastAPI()
 
-# Update CORS settings
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Update this with your frontend URL once deployed
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Add routers
 app.include_router(ws_router)
 app.include_router(auth_router)
 
 @app.get("/")
-def read_root():
-    return {"message": "Chat App API is running."}
+async def read_root():
+    return {"status": "ok", "message": "Chat App API is running"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))

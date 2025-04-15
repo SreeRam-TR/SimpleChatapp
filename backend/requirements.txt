@@ -1,8 +1,8 @@
 fastapi
 uvicorn
-asyncpg
-supabase
 python-dotenv
-bcrypt==4.0.1
-passlib==1.7.4
-python-jose
+supabase
+asyncpg
+websockets
+python-jose[cryptography]
+passlib[bcrypt]

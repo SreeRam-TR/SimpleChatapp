@@ -136,42 +136,19 @@ body {
 }
 
 .message {
-    margin: 10px;
+    margin: 10px 0;
     padding: 10px;
     border-radius: 10px;
     max-width: 70%;
-    position: relative;
 }
 
 .message.sent {
-    background-color: #DCF8C6;
+    background: #dcf8c6;
     margin-left: auto;
-    margin-right: 10px;
 }
 
 .message.received {
-    background-color: white;
-    margin-right: auto;
-    margin-left: 10px;
-}
-
-.message-content {
-    margin-bottom: 5px;
-    word-wrap: break-word;
-}
-
-.message-time {
-    font-size: 0.75em;
-    color: #666;
-    text-align: right;
-}
-
-.messages-list {
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    background-color: #E5DDD5;
-    overflow-y: auto;
+    background: white;
 }
 
 .message-input-area {

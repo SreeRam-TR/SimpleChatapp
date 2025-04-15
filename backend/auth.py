@@ -59,25 +59,23 @@ async def search_users(query: str):
     finally:
         await conn.close()
 
-@router.get("/messages/{sender_id}/{receiver_id}")
+@router.get("/messages/{sender_id}/{receiver_id}", response_model=List[dict])
 async def get_chat_history(sender_id: str, receiver_id: str):
     conn = await get_connection()
     try:
         messages = await conn.fetch("""
-            SELECT id, sender_id, receiver_id, content, timestamp
+            SELECT sender_id, receiver_id, content, created_at
             FROM messages
             WHERE (sender_id = $1 AND receiver_id = $2)
             OR (sender_id = $2 AND receiver_id = $1)
-            ORDER BY timestamp ASC
+            ORDER BY created_at ASC
         """, sender_id, receiver_id)
-        
         return [
             {
-                "id": str(msg['id']),
                 "sender_id": str(msg['sender_id']),
                 "receiver_id": str(msg['receiver_id']),
                 "content": msg['content'],
-                "timestamp": msg['timestamp'].isoformat()
+                "timestamp": msg['created_at'].isoformat()
             }
             for msg in messages
         ]
