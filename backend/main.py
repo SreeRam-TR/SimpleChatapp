@@ -5,13 +5,22 @@ from auth import router as auth_router
 
 app = FastAPI()
 
-# Simplify CORS - allow all origins temporarily to test
+# Add your frontend URL to allowed origins
+origins = [
+    "https://chatapp-frontend-s6uf.onrender.com",  # Your actual frontend URL
+    "http://localhost:3000",
+    "http://localhost:5000",
+    "http://localhost:8000"
+]
+
+# Add CORS middleware before any routes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # This will allow all origins
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 app.include_router(ws_router)
