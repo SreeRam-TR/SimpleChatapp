@@ -26,24 +26,45 @@ async def signup(data: SignupRequest):
     conn = await get_connection()
     try:
         hashed_password = bcrypt.hash(data.password)
-        await conn.execute("""
+        user_id = await conn.fetchval("""
             INSERT INTO users (username, email, password_hash)
             VALUES ($1, $2, $3)
+            RETURNING id
         """, data.username, data.email, hashed_password)
+        
+        return {
+            "message": "Signup successful",
+            "user_id": str(user_id)
+        }
     except asyncpg.UniqueViolationError:
-        raise HTTPException(status_code=400, detail="Username or email already exists")
+        raise HTTPException(
+            status_code=400,
+            detail="Username or email already exists"
+        )
     finally:
         await conn.close()
-    return {"message": "Signup successful"}
 
 @router.post("/login")
 async def login(data: LoginRequest):
     conn = await get_connection()
-    user = await conn.fetchrow("SELECT * FROM users WHERE username = $1", data.username)
-    await conn.close()
-    if not user or not bcrypt.verify(data.password, user['password_hash']):
-        raise HTTPException(status_code=401, detail="Invalid username or password")
-    return {"message": "Login successful", "user_id": str(user['id'])}
+    try:
+        user = await conn.fetchrow(
+            "SELECT * FROM users WHERE username = $1",
+            data.username
+        )
+        
+        if not user or not bcrypt.verify(data.password, user['password_hash']):
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid username or password"
+            )
+            
+        return {
+            "message": "Login successful",
+            "user_id": str(user['id'])
+        }
+    finally:
+        await conn.close()
 
 @router.get("/users/search", response_model=List[UserResponse])
 async def search_users(query: str):

@@ -19,12 +19,12 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
-    expose_headers=["*"]
+    allow_headers=["*"]
 )
 
+# Include routers with prefix
+app.include_router(auth_router, prefix="")  # Make sure there's no prefix for auth routes
 app.include_router(ws_router)
-app.include_router(auth_router)
 
 @app.get("/")
 def read_root():
