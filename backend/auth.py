@@ -21,7 +21,7 @@ class UserResponse(BaseModel):
     id: str
     username: str
 
-@router.post("/signup")
+@router.api_route("/signup", methods=["POST", "OPTIONS"], include_in_schema=False)
 async def signup(data: SignupRequest):
     conn = await get_connection()
     try:
@@ -44,7 +44,7 @@ async def signup(data: SignupRequest):
     finally:
         await conn.close()
 
-@router.post("/login")
+@router.api_route("/login", methods=["POST", "OPTIONS"], include_in_schema=False)
 async def login(data: LoginRequest):
     conn = await get_connection()
     try:

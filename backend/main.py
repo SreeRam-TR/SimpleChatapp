@@ -16,11 +16,12 @@ origins = [
 # Add CORS middleware before any routes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Use * just for testing
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["*"]
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 # Include routers with prefix
 app.include_router(auth_router, prefix="")  # Make sure there's no prefix for auth routes
