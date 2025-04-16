@@ -7,11 +7,9 @@ app = FastAPI()
 
 # Add your frontend URL to allowed origins
 origins = [
-    "https://chatapp-frontend-s6uf.onrender.com",  # Your actual frontend URL
-    "http://localhost:3000",
-    "http://localhost:5000",
-    "http://localhost:8000"
+    "https://chatapp-frontend-s6uf.onrender.com",  # your actual frontend URL
 ]
+
 
 # Add CORS middleware before any routes
 app.add_middleware(
